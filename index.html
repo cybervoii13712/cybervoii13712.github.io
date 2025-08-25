@@ -1,218 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adu Em Panhh=))</title>
-  <style>
-    :root {
-      --bg: #050607;
-      --panel: #0b0f10;
-      --neon: #00ffc6;
-      --accent: #ff4ecd;
-      --text: #d9fff2;
-      --shadow: 0 0 18px rgba(0,255,198,.25), inset 0 0 10px rgba(0,255,198,.06);
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      overflow: hidden;
-    }
-
-    /* matrix backdrop */
-    #matrix {
-      position: fixed; inset: 0;
-      z-index: 0;
-      filter: brightness(.85) saturate(1.1);
-    }
-    /* subtle gradient overlay so text bật hơn */
-    .overlay {
-      position: fixed; inset: 0; z-index: 1;
-      background: radial-gradient(1200px 800px at 70% 20%, rgba(0,255,198,.06), transparent 60%),
-                  radial-gradient(900px 600px at 20% 80%, rgba(255,78,205,.05), transparent 60%);
-      pointer-events: none;
-    }
-
-    .wrap {
-      position: relative; z-index: 2;
-      height: 100%; display: grid; place-items: center; padding: 24px;
-    }
-
-    .terminal {
-      width: min(860px, 92vw);
-      background: linear-gradient(180deg, rgba(11,15,16,.9), rgba(11,15,16,.78));
-      border: 1px solid rgba(0,255,198,.18);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 20px 22px 26px;
-      backdrop-filter: blur(2px);
-    }
-    .titlebar {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-      color: #8fffe6; opacity: .9; font-size: 13px;
-    }
-    .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
-    .dot.red { background:#ff5f56; }
-    .dot.yellow { background:#ffbd2e; }
-    .dot.green { background:#27c93f; }
-
-    .prompt { color: var(--neon); }
-    .lines { font-size: clamp(14px, 1.6vw, 18px); line-height: 1.55; }
-    .line { margin: 6px 0; white-space: pre-wrap; word-break: break-word; }
-
-    .cursor {
-      display: inline-block; width: 10px; margin-left: 2px; background: var(--neon);
-      animation: blink .9s steps(2, start) infinite;
-      height: 1.1em; transform: translateY(2px);
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    .links {
-      margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px;
-      font-size: clamp(13px, 1.5vw, 16px);
-    }
-    .links a {
-      color: var(--accent); text-decoration: none; border-bottom: 1px dashed rgba(255,78,205,.35);
-      transition: .18s transform ease;
-    }
-    .links a:hover { transform: translateY(-2px); }
-
-    .footer {
-      margin-top: 16px; font-size: 12px; opacity: .7;
-    }
-
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      #matrix { display: none; }
-      .cursor { animation: none; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nguyn Dat - CyberVoii (Panhh)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#040507;
+    --neon:#00ffc6;
+    --mag:#ff4ecd;
+    --glass: rgba(255,255,255,0.03);
+    --muted: rgba(255,255,255,0.6);
+    --card: rgba(6,10,12,0.75);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:"JetBrains Mono",monospace;background:var(--bg);color:#dffef6;overflow:hidden}
+  canvas#matrix, canvas#grid {
+    position:fixed; inset:0; width:100%; height:100%; display:block; z-index:0;
+  }
+  .overlay { position:fixed; inset:0; z-index:1;
+    background:
+      radial-gradient(800px 500px at 20% 10%, rgba(0,255,198,0.03), transparent 25%),
+      radial-gradient(900px 600px at 80% 90%, rgba(255,78,205,0.03), transparent 25%);
+    pointer-events:none;
+  }
+  .wrap { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px; gap:26px; }
+  .title { text-align:center; pointer-events:none; filter:drop-shadow(0 6px 26px rgba(0,255,198,0.06)); }
+  .name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(28px, 5.2vw, 56px);
+    letter-spacing:1px;
+    color:var(--neon);
+    text-shadow: 0 0 12px rgba(0,255,198,0.18),0 0 28px rgba(0,255,198,0.08),0 2px 0 rgba(0,0,0,0.25);
+    display:inline-block; padding:8px 18px; border-radius:12px;
+    background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));
+  }
+  .handle { font-size: clamp(12px,1.6vw,15px); margin-top:8px; color:var(--muted); }
+  .menu { display:flex; gap:14px; align-items:flex-end; pointer-events:auto; }
+  .menu-item {
+    --w: 170px;
+    position:relative; width:var(--w); min-width:120px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(0,255,198,0.08);
+    padding:12px 14px; border-radius:12px;
+    text-align:center; cursor:pointer;
+    transition: transform .22s cubic-bezier(.2,.9,.25,1), box-shadow .22s;
+    box-shadow: 0 6px 26px rgba(0,0,0,0.55), inset 0 0 10px rgba(0,255,198,0.03);
+  }
+  .menu-item:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 60px rgba(0,255,198,0.06); }
+  .menu-item .label {
+    display:block; font-family: 'Orbitron', sans-serif; color:var(--neon); font-size:15px; letter-spacing:0.6px;
+    text-shadow: 0 0 8px rgba(0,255,198,0.14);
+  }
+  .panel {
+    position:absolute; left:50%; transform:translateX(-50%) translateY(8px);
+    bottom:calc(100% + 12px);
+    width: calc(var(--w) * 1.5); max-width:520px;
+    background: linear-gradient(180deg, rgba(6,10,12,0.95), rgba(12,16,18,0.82));
+    border:1px solid rgba(0,255,198,0.08);
+    padding:14px 16px; border-radius:12px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.7), 0 0 28px rgba(0,255,198,0.04);
+    opacity:0; visibility:hidden;
+    transition: opacity .22s, transform .28s cubic-bezier(.2,.9,.25,1), visibility .22s;
+    backdrop-filter: blur(6px); z-index:3; pointer-events:none;
+  }
+  .menu-item:hover .panel,
+  .menu-item.active .panel { opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+  .panel .heading { font-family:Orbitron, sans-serif; color:var(--mag); font-size:13px; margin-bottom:8px; }
+  .panel .body { font-size:13px; line-height:1.5; color:#cfeee7; min-height:44px; max-height:220px; overflow:auto; white-space:pre-wrap; }
+  .typer .cursor { display:inline-block; width:10px; height:1.1em; background:var(--neon); margin-left:6px; animation: blink .9s steps(2,start) infinite; vertical-align:middle; }
+  @keyframes blink { 50% { opacity:0; } }
+  .hint { margin-top:6px; font-size:12px; color:rgba(255,255,255,0.45); text-align:center; }
+  .footer { position:fixed; left:12px; bottom:10px; font-size:12px; color:rgba(255,255,255,0.45); z-index:4 }
+</style>
 </head>
 <body>
-  <canvas id="matrix" aria-hidden="true"></canvas>
+  <canvas id="grid"></canvas>
+  <canvas id="matrix"></canvas>
   <div class="overlay"></div>
 
   <div class="wrap">
-    <div class="terminal" role="region" aria-label="Cửa sổ terminal">
-      <div class="titlebar">
-        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>~/cybervoii13712</span>
-      </div>
-
-      <div class="lines" id="lines">
-        <!-- dòng sẽ được gõ bằng JS -->
-      </div>
-
-      <div class="links" id="links" style="display:none">
-        [ <a href="mailto:muotregedit@gmail.com">Email</a> ]
-        [ <a href="https://facebook.com/nguyn.dat.13712" target="_blank" rel="noopener">Facebook</a> ]
-        [ <a href="https://guns.lol/cybervoii" target="_blank" rel="noopener">GunsLoL</a> ]
-        [ <a href="https://github.com/cybervoii13712" target="_blank" rel="noopener">GitHub</a> ]
-      </div>
-
-      <div class="footer">© 2025 cybervoii13712 • neon vibes on Pages</div>
+    <div class="title">
+      <div class="name">() Nguyn Dat <span style="opacity:.7">•</span> <span style="color:var(--mag)">CyberVoii ()</span></div>
+      <div class="handle">Dev Code • Security curious</div>
     </div>
+
+    <nav class="menu">
+      <div class="menu-item"><span class="label">About</span>
+        <div class="panel"><div class="heading">Giới thiệu</div><div class="body"><span class="typer" data-text="Xin chào — mình là Nguyn Dat (Panhh), dev mê web & bảo mật. Thích vọc Three.js, làm UI neon, và học pentest."></span></div></div>
+      </div>
+      <div class="menu-item"><span class="label">Skills</span>
+        <div class="panel"><div class="heading">Kỹ năng</div><div class="body"><span class="typer" data-text="HTML • CSS • JavaScript • Three.js • Git/GitHub • Basic Web Security • Animation & UI • SQL Injection"></span></div></div>
+      </div>
+      <div class="menu-item"><span class="label">Projects</span>
+        <div class="panel"><div class="heading">Dự án</div><div class="body"><span class="typer" data-text="- Neon landing pages\n- Terminal playground\n- Mini OS giả lập"></span></div></div>
+      </div>
+      <div class="menu-item"><span class="label">Contact</span>
+        <div class="panel"><div class="heading">Liên hệ</div><div class="body"><span class="typer" data-text="Email: muotregedit@gmail.com\nGitHub: github.com/cybervoii13712\nFacebook: nguyn.dat.13712"></span></div></div>
+      </div>
+    </nav>
+
+    <div class="hint">Hover để mở — Mobile chạm để mở/đóng</div>
   </div>
 
-  <script>
-    // ===== Matrix rain =====
-    (function matrix() {
-      const c = document.getElementById('matrix');
-      const ctx = c.getContext('2d');
-      function resize() {
-        c.width = window.innerWidth;
-        c.height = window.innerHeight;
-        cols = Math.floor(c.width / fontSize);
-        drops = Array(cols).fill(0);
-      }
-      const alphabet = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポ0123456789";
-      let fontSize = 16;
-      let cols, drops;
-      resize();
-      window.addEventListener('resize', resize);
+  <div class="footer">© 2025 cybervoii13712</div>
 
-      function draw() {
-        ctx.fillStyle = "rgba(5, 6, 7, 0.18)";
-        ctx.fillRect(0, 0, c.width, c.height);
-
-        ctx.fillStyle = "#00ffc6";
-        ctx.font = fontSize + "px monospace";
-
-        for (let i = 0; i < drops.length; i++) {
-          const text = alphabet[Math.floor(Math.random() * alphabet.length)];
-          const x = i * fontSize;
-          const y = drops[i] * fontSize;
-          ctx.fillText(text, x, y);
-
-          if (y > c.height && Math.random() > 0.975) drops[i] = 0;
-          drops[i]++;
-        }
-        requestAnimationFrame(draw);
-      }
-      requestAnimationFrame(draw);
-    })();
-
-    // ===== Typewriter for multiple lines =====
-const lines = [
-  { pre: "guest@cybervoii13712:~$ ", text: "whoami" },
-  { pre: "→ ", text: "Tôi là Nguyn Dat — biệt danh CyberVoii (Panhh)." },
-  { pre: "→ ", text: "Một dev nhỏ tuổi nhưng được cái ít kinh nghiệm-))" },
-  { pre: "guest@cybervoii13712:~$ ", text: "cat story.txt" },
-  { pre: "→ ", text: "Từng hắc web chính phủ thailand, tập tành security và soi lỗ hổng tiềm ẩn. Nhưng giờ t tu tâm dưỡng tính roii-))))" },
-  { pre: "→ ", text: "CyberVoii is Admin Of TamThaiTu CnC, Valhein C2, Goodies C2" },
-  { pre: "→ ", text: "Nghe thì to tát, thật ra cũng chỉ là một thằng hay vọc code & thích thử thách." },
-  { pre: "guest@cybervoii13712:~$ ", text: "skills --list" },
-  { pre: "→ ", text: "HTML • CSS • JavaScript • Git/GitHub • Dấu hiệu lỗ hổng web" },
-  { pre: "guest@cybervoii13712:~$ ", text: "contact --show" },
-  { pre: "→ ", text: "my info nì ;-;" }
-];
-
-    const container = document.getElementById('lines');
-    const links = document.getElementById('links');
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function typeLine(i = 0) {
-      if (i >= lines.length) { links.style.display = 'flex'; return; }
-      const row = document.createElement('div');
-      row.className = 'line';
-      const pre = document.createElement('span');
-      pre.className = 'prompt';
-      pre.textContent = lines[i].pre;
-      const content = document.createElement('span');
-      const cursor = document.createElement('span');
-      cursor.className = 'cursor';
-
-      row.appendChild(pre);
-      row.appendChild(content);
-      row.appendChild(cursor);
-      container.appendChild(row);
-
-      if (prefersReduced) {
-        content.textContent = " " + lines[i].text;
-        cursor.remove();
-        setTimeout(() => typeLine(i + 1), 150);
-        return;
-      }
-
-      let j = 0;
-      const text = " " + lines[i].text;
-      (function typer(){
-        if (j < text.length) {
-          content.textContent += text[j++];
-          const delay = 12 + Math.random() * 40; // nhịp gõ tự nhiên
-          setTimeout(typer, delay);
-        } else {
-          cursor.remove();
-          setTimeout(() => typeLine(i + 1), 250);
-        }
-      })();
+  <!-- Nhạc nền -->
+<audio id="bg-audio" src="https://files.catbox.moe/76ipla.mp3"></audio>
+<script>
+  const audio = document.getElementById('bg-audio');
+  let started = false;
+  document.body.addEventListener('click', ()=>{
+    if(!started){
+      audio.play();
+      started = true;
     }
-    typeLine();
-  </script>
+  });
+</script>
+
+
+<script>
+/* Matrix rain + Grid background */
+(function bg(){
+  const grid=document.getElementById('grid'),mg=grid.getContext('2d');
+  const matrix=document.getElementById('matrix'),mm=matrix.getContext('2d');
+  let w,h,cols,fontSize=16,drops;function resize(){w=innerWidth;h=innerHeight;grid.width=matrix.width=w;grid.height=matrix.height=h;fontSize=Math.max(12,Math.floor(Math.min(w,h)/70));cols=Math.floor(w/fontSize);drops=Array(cols).fill(0);}addEventListener('resize',resize);resize();
+  const alphabet="ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛ0123456789";
+  function drawMatrix(){mm.fillStyle='rgba(0,0,0,0.12)';mm.fillRect(0,0,w,h);mm.fillStyle='#00ffc6';mm.font=`${fontSize}px monospace`;for(let i=0;i<drops.length;i++){const text=alphabet[Math.floor(Math.random()*alphabet.length)];mm.fillText(text,i*fontSize,drops[i]*fontSize);if(drops[i]*fontSize>h&&Math.random()>0.98)drops[i]=0;drops[i]++;}}
+  function loop(){drawMatrix();requestAnimationFrame(loop);}loop();
+})();
+
+/* Menu hover panels + typewriter */
+(function ui(){
+  const items=document.querySelectorAll('.menu-item');
+  function typeTo(el,text){el.textContent='';let i=0;const cur=document.createElement('span');cur.className='cursor';el.appendChild(cur);function step(){if(i<text.length){cur.remove();el.textContent=text.slice(0,i+1);el.appendChild(cur);i++;setTimeout(step,20+Math.random()*20);}else{setTimeout(()=>cur.remove(),600);}}step();}
+  items.forEach(item=>{const typer=item.querySelector('.typer');const txt=typer.getAttribute('data-text');item.addEventListener('mouseenter',()=>{typer.textContent='';typeTo(typer,txt);});item.addEventListener('mouseleave',()=>{typer.textContent='';});});
+})();
+
+/* Audio autoplay unmute */
+window.addEventListener("load",()=>{
+  const audio=document.getElementById("bgm");
+  setTimeout(()=>{
+    audio.muted=false;
+    audio.play().catch(e=>console.log("Autoplay bị chặn:",e));
+  },500);
+});
+</script>
 </body>
 </html>
+
