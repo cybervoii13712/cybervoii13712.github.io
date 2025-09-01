@@ -1,161 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Nguyn Dat - CyberVoii (Panhh)</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<style>
-  :root{
-    --bg:#040507;
-    --neon:#00ffc6;
-    --mag:#ff4ecd;
-    --glass: rgba(255,255,255,0.03);
-    --muted: rgba(255,255,255,0.6);
-    --card: rgba(6,10,12,0.75);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:"JetBrains Mono",monospace;background:var(--bg);color:#dffef6;overflow:hidden}
-  canvas#matrix, canvas#grid {
-    position:fixed; inset:0; width:100%; height:100%; display:block; z-index:0;
-  }
-  .overlay { position:fixed; inset:0; z-index:1;
-    background:
-      radial-gradient(800px 500px at 20% 10%, rgba(0,255,198,0.03), transparent 25%),
-      radial-gradient(900px 600px at 80% 90%, rgba(255,78,205,0.03), transparent 25%);
-    pointer-events:none;
-  }
-  .wrap { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px; gap:26px; }
-  .title { text-align:center; pointer-events:none; filter:drop-shadow(0 6px 26px rgba(0,255,198,0.06)); }
-  .name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(28px, 5.2vw, 56px);
-    letter-spacing:1px;
-    color:var(--neon);
-    text-shadow: 0 0 12px rgba(0,255,198,0.18),0 0 28px rgba(0,255,198,0.08),0 2px 0 rgba(0,0,0,0.25);
-    display:inline-block; padding:8px 18px; border-radius:12px;
-    background:linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));
-  }
-  .handle { font-size: clamp(12px,1.6vw,15px); margin-top:8px; color:var(--muted); }
-  .menu { display:flex; gap:14px; align-items:flex-end; pointer-events:auto; }
-  .menu-item {
-    --w: 170px;
-    position:relative; width:var(--w); min-width:120px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(0,255,198,0.08);
-    padding:12px 14px; border-radius:12px;
-    text-align:center; cursor:pointer;
-    transition: transform .22s cubic-bezier(.2,.9,.25,1), box-shadow .22s;
-    box-shadow: 0 6px 26px rgba(0,0,0,0.55), inset 0 0 10px rgba(0,255,198,0.03);
-  }
-  .menu-item:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 60px rgba(0,255,198,0.06); }
-  .menu-item .label {
-    display:block; font-family: 'Orbitron', sans-serif; color:var(--neon); font-size:15px; letter-spacing:0.6px;
-    text-shadow: 0 0 8px rgba(0,255,198,0.14);
-  }
-  .panel {
-    position:absolute; left:50%; transform:translateX(-50%) translateY(8px);
-    bottom:calc(100% + 12px);
-    width: calc(var(--w) * 1.5); max-width:520px;
-    background: linear-gradient(180deg, rgba(6,10,12,0.95), rgba(12,16,18,0.82));
-    border:1px solid rgba(0,255,198,0.08);
-    padding:14px 16px; border-radius:12px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.7), 0 0 28px rgba(0,255,198,0.04);
-    opacity:0; visibility:hidden;
-    transition: opacity .22s, transform .28s cubic-bezier(.2,.9,.25,1), visibility .22s;
-    backdrop-filter: blur(6px); z-index:3; pointer-events:none;
-  }
-  .menu-item:hover .panel,
-  .menu-item.active .panel { opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); pointer-events:auto; }
-  .panel .heading { font-family:Orbitron, sans-serif; color:var(--mag); font-size:13px; margin-bottom:8px; }
-  .panel .body { font-size:13px; line-height:1.5; color:#cfeee7; min-height:44px; max-height:220px; overflow:auto; white-space:pre-wrap; }
-  .typer .cursor { display:inline-block; width:10px; height:1.1em; background:var(--neon); margin-left:6px; animation: blink .9s steps(2,start) infinite; vertical-align:middle; }
-  @keyframes blink { 50% { opacity:0; } }
-  .hint { margin-top:6px; font-size:12px; color:rgba(255,255,255,0.45); text-align:center; }
-  .footer { position:fixed; left:12px; bottom:10px; font-size:12px; color:rgba(255,255,255,0.45); z-index:4 }
-  .socials { display:flex; gap:18px; margin-top:20px; font-size:28px; }
-  .socials a { color:var(--muted); transition:color .2s; }
-  .socials a:hover { color:var(--neon); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hacked By CyberVoii</title>
+  <meta name="description" content="CyberVoii" />
+  <meta name="author" content="CyberVoii" />
+  <meta property="og:image" content="https://i.imgur.com/GUnpscv.png" />
+  <link rel="icon" href="https://i.imgur.com/GUnpscv.png" />
 </head>
-<body>
-  <canvas id="grid"></canvas>
-  <canvas id="matrix"></canvas>
-  <div class="overlay"></div>
+<body bgcolor="black" text="white" oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;" style="cursor: auto;" id="body" onload="typeWriter()">
+    <script>
+        alert('Hacked By CyberVoii');
 
-  <div class="wrap">
-    <div class="title">
-      <div class="name">() Nguyn Dat <span style="opacity:.7">•</span> <span style="color:var(--mag)">CyberVoii ()</span></div>
-      <div class="handle">Dev Code • Security curious</div>
-    </div>
+        function fs() {
+            document.getElementById('lagu').play();
+        }
 
-    <nav class="menu">
-      <div class="menu-item"><span class="label">About</span>
-        <div class="panel"><div class="heading">Giới thiệu</div><div class="body"><span class="typer" data-text="Xin chào — mình là Nguyn Dat (Panhh), dev mê web & bảo mật. Thích vọc Three.js, làm UI neon, và học pentest."></span></div></div>
-      </div>
-      <div class="menu-item"><span class="label">Skills</span>
-        <div class="panel"><div class="heading">Kỹ năng</div><div class="body"><span class="typer" data-text="HTML • CSS • JavaScript • Three.js • Git/GitHub • Basic Web Security • Animation & UI • SQL Injection"></span></div></div>
-      </div>
-      <div class="menu-item"><span class="label">Projects</span>
-        <div class="panel"><div class="heading">Dự án</div><div class="body"><span class="typer" data-text="- Neon landing pages\n- Terminal playground\n- Mini OS giả lập"></span></div></div>
-      </div>
-      <div class="menu-item"><span class="label">Contact</span>
-        <div class="panel"><div class="heading">Liên hệ</div><div class="body"><span class="typer" data-text="Email: muotregedit@gmail.com\nGitHub: github.com/cybervoii13712\nFacebook: nguyn.dat.13712"></span></div></div>
-      </div>
-    </nav>
+        document.addEventListener('click', function() {
+            fs();
+        }, { once: true });
+    </script>
+    <style type="text/css">
+        center {
+            font-family: Courier;
+        }
+        img {
+            opacity: 80%
+        }
+        red {
+            color: red;
+        }
+        #background-video {
+            height: 100vh;
+            width: 100vw;
+            object-fit: cover;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+        font {
+            text-shadow: #000 0px 0px 3px;
+            -webkit-font-smoothing: antialiased;
+        }
+        div {
+            animation: 1s linear infinite;
+        }
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px, 0) skew(0deg); }
+            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+            62% { transform: translate(0, 0) skew(5deg); }
+        }
+        div:before,
+        div:after {
+            content: attr(title);
+            position: absolute;
+            left: 0;
+        }
+        div:before {
+            animation: glitchTop 1s linear infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+        }
+        @keyframes glitchTop {
+            2%, 64% { transform: translate(2px, -2px); }
+            4%, 60% { transform: translate(-2px, 2px); }
+            62% { transform: translate(13px, -1px) skew(-13deg); }
+        }
+        div:after {
+            animation: glitchBotom 1.5s linear infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+        }
+        @keyframes glitchBotom {
+            2%, 64% { transform: translate(-2px, 0); }
+            4%, 60% { transform: translate(-2px, 0); }
+            62% { transform: translate(-22px, 5px) skew(21deg); }
+        }
+    </style>
 
-    <!-- Social icons -->
-    <div class="socials">
-      <a href="https://github.com/cybervoii13712" target="_blank"><i class="bi bi-github"></i></a>
-      <a href="https://facebook.com/nguyn.dat.13712" target="_blank"><i class="bi bi-facebook"></i></a>
-      <a href="https://guns.lol/cybervoii" target="_blank"><i class="bi bi-link-45deg"></i></a>
-    </div>
-
-    <div class="hint">Hover để mở — Mobile chạm để mở/đóng</div>
-  </div>
-
-  <div class="footer">© 2025 cybervoii13712</div>
-
-  <!-- Nhạc nền -->
-<audio id="bg-audio" src="https://files.catbox.moe/76ipla.mp3"></audio>
-<script>
-  const audio = document.getElementById('bg-audio');
-  let started = false;
-  document.body.addEventListener('click', ()=>{
-    if(!started){
-      audio.play();
-      started = true;
-    }
-  });
-</script>
-
-<script>
-/* Matrix rain + Grid background */
-(function bg(){
-  const grid=document.getElementById('grid'),mg=grid.getContext('2d');
-  const matrix=document.getElementById('matrix'),mm=matrix.getContext('2d');
-  let w,h,cols,fontSize=16,drops;function resize(){w=innerWidth;h=innerHeight;grid.width=matrix.width=w;grid.height=matrix.height=h;fontSize=Math.max(12,Math.floor(Math.min(w,h)/70));cols=Math.floor(w/fontSize);drops=Array(cols).fill(0);}addEventListener('resize',resize);resize();
-  const alphabet="ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛ0123456789";
-  function drawMatrix(){mm.fillStyle='rgba(0,0,0,0.12)';mm.fillRect(0,0,w,h);mm.fillStyle='#00ffc6';mm.font=`${fontSize}px monospace`;for(let i=0;i<drops.length;i++){const text=alphabet[Math.floor(Math.random()*alphabet.length)];mm.fillText(text,i*fontSize,drops[i]*fontSize);if(drops[i]*fontSize>h&&Math.random()>0.98)drops[i]=0;drops[i]++;}}
-  function loop(){drawMatrix();requestAnimationFrame(loop);}loop();
-})();
-
-/* Menu hover panels + typewriter */
-(function ui(){
-  const items=document.querySelectorAll('.menu-item');
-  function typeTo(el,text){el.textContent='';let i=0;const cur=document.createElement('span');cur.className='cursor';el.appendChild(cur);function step(){if(i<text.length){cur.remove();el.textContent=text.slice(0,i+1);el.appendChild(cur);i++;setTimeout(step,20+Math.random()*20);}else{setTimeout(()=>cur.remove(),600);}}step();}
-  items.forEach(item=>{const typer=item.querySelector('.typer');const txt=typer.getAttribute('data-text');item.addEventListener('mouseenter',()=>{typer.textContent='';typeTo(typer,txt);});item.addEventListener('mouseleave',()=>{typer.textContent='';});});
-})();
-
-/* Audio autoplay unmute */
-window.addEventListener("load",()=>{
-  const audio=document.getElementById("bgm");
-  setTimeout(()=>{
-    audio.muted=false;
-    audio.play().catch(e=>console.log("Autoplay bị chặn:",e));
-  },500);
-});
-</script>
+    <table width="100%" height="100%">
+        <tbody>
+            <tr>
+                <td>
+                    <center>
+                        <div>
+                            <img src="https://i.imgur.com/GUnpscv.png" width="200" height="200">
+                        </div>
+                    </center>
+                    <center>
+                        <br><br>
+                        <b> Hacked By <br>
+                            <red>
+                                ()
+                            </red> CyberVoii
+                            <red>
+                                <i> </i> ()
+                            </red>
+                            <br><br>
+                             <b>Your systems are no longer yours.<br> All of them are in our hands!</b>
+                            <br><br><hr><br><br>
+                            <b>
+                                <red>
+                                    Admin, from this moment on, your system no longer carries your name — it carries ours, and it will obey only us.
+                                </red>
+                            </b>
+                            <br><br>
+                            <hr><br><br>
+                            <img src="https://i.gifer.com/81RG.gif" width="190" height="300">
+                            <br><hr><br>
+                            <marquee behavior="alternate">
+                                <b><i>
+                                    <red>
+                                        CyberVoii | TamThaiTu SRVN | Anonymous | Anonymous_VN | Vietnam_Vx
+                                    </red>
+                                </i></b>
+                            </marquee>
+                            <br><br>
+                            <!-- Giữ 1 audio thôi, đặt ở cuối với controls -->
+                            <audio id="lagu" src="https://files.catbox.moe/re7hgi.mp3" controls loop></audio>
+                        </center>
+                    </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
+
